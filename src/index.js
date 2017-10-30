@@ -54,7 +54,6 @@ class Game extends React.Component {
       }],
       xIsNext: true,
       stepNumber: 0,
-      lastIndex: null
     }
   }
 
@@ -84,8 +83,8 @@ class Game extends React.Component {
   }
 
   render() {
-    const history = this.state.history.slice(0, this.state.stepNumber + 1);
-    const current = history[history.length - 1];
+    const history = this.state.history;
+    const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     let status;
 
@@ -99,9 +98,13 @@ class Game extends React.Component {
       let x = step.idx ? Math.floor(step.idx/3) : ''
       let y = step.idx ? step.idx % 3 : ''
       let desc = move ? ('Go to move ' + move + ' (' + x + ', ' + y + ')') : 'Go to game start';
+
       return (
         <li key={move}>
-          <button onClick={() => {this.jumpTo(move)}}>{desc}</button>
+          <button 
+            style={this.state.stepNumber === move ? {'font-weight': 'bold'} : {'font-weight': 'initial'}}
+            onClick={() => {this.jumpTo(move)}}>{desc}
+          </button>
         </li>
       )
     })
